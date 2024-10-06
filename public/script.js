@@ -1,25 +1,23 @@
 const audioPlayer = document.getElementById('audioPlayer');
-let playlist = [];
-let currentTrack = 0;
+let socket;
 
-// Fetch the list of songs from the server
-fetch('/songs')
-  .then(response => response.json())
-  .then(songs => {
-    if (songs.length > 0) {
-      playlist = songs;
-      loadTrack(currentTrack);
-    }
-  });
+// Connect to WebSocket server
+function connectWebSocket() {
+    socket = new WebSocket('ws://localhost:3000'); // Change 'localhost' to your server address
 
-// Load and play the current track
-function loadTrack(index) {
-  audioPlayer.src = `music/${playlist[index]}`;
-  audioPlayer.play();
+    socket.onmessage = function(event) {
+        const message = JSON.parse(event.data);
+        if (message.track) {
+            audioPlayer.src = message.track;
+            audioPlayer.play();
+        }
+    };
+
+    socket.onclose = function() {
+        console.log('WebSocket connection closed, reconnecting...');
+        setTimeout(connectWebSocket, 3000); // Try to reconnect every 3 seconds
+    };
 }
 
-// Move to the next song when one ends
-audioPlayer.addEventListener('ended', () => {
-  currentTrack = (currentTrack + 1) % playlist.length;
-  loadTrack(currentTrack);
-});
+// Initialize WebSocket connection
+connectWebSocket();
