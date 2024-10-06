@@ -3,9 +3,9 @@ const playlistDiv = document.getElementById('playlist');
 
 // List of songs in the music folder
 const songs = [
-  "music/song1.mp3",
-  "music/song2.mp3",
-  "music/song3.mp3"
+  "music/FUSION JAZZ.mp3",
+  "music/JAZZ FUSION.mp3",
+  "music/SOMETHIN FUNKY.mp3"
 ];
 
 let currentTrackIndex = 0;
