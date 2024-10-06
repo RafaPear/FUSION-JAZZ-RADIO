@@ -16,20 +16,8 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    color: #333;
-}
-
 audio {
     margin-top: 20px;
-    width: 100%;
-}
-
-#playlist p {
-    color: #007bff;
-    margin: 10px 0;
-}
-
-#playlist p:hover {
-    text-decoration: underline;
+    width: 400px; /* Adjust width as needed */
+    height: 60px; /* Height of the player */
 }
