@@ -1,23 +1,39 @@
 const audioPlayer = document.getElementById('audioPlayer');
-let socket;
+const playlistDiv = document.getElementById('playlist');
 
-// Connect to WebSocket server
-function connectWebSocket() {
-    socket = new WebSocket('ws://localhost:3000'); // Change 'localhost' to your server address
+// List of songs in the music folder
+const songs = [
+  "music/song1.mp3",
+  "music/song2.mp3",
+  "music/song3.mp3"
+];
 
-    socket.onmessage = function(event) {
-        const message = JSON.parse(event.data);
-        if (message.track) {
-            audioPlayer.src = message.track;
-            audioPlayer.play();
-        }
-    };
+let currentTrackIndex = 0;
 
-    socket.onclose = function() {
-        console.log('WebSocket connection closed, reconnecting...');
-        setTimeout(connectWebSocket, 3000); // Try to reconnect every 3 seconds
-    };
+// Function to load and play a song
+function loadTrack(index) {
+  audioPlayer.src = songs[index];
+  audioPlayer.play();
 }
 
-// Initialize WebSocket connection
-connectWebSocket();
+// Display playlist and set up click events
+function setupPlaylist() {
+  songs.forEach((song, index) => {
+    const songName = song.split('/').pop(); // Get the file name
+    const songElement = document.createElement('p');
+    songElement.innerText = songName;
+    songElement.style.cursor = 'pointer';
+    songElement.onclick = () => loadTrack(index);
+    playlistDiv.appendChild(songElement);
+  });
+}
+
+// When a song ends, move to the next song
+audioPlayer.addEventListener('ended', () => {
+  currentTrackIndex = (currentTrackIndex + 1) % songs.length;
+  loadTrack(currentTrackIndex);
+});
+
+// Load the first track on page load
+loadTrack(currentTrackIndex);
+setupPlaylist();
