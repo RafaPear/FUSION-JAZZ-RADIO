@@ -14,8 +14,8 @@ body {
     padding: 60px; /* Increase padding */
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Slightly bigger shadow */
-    min-width: 500px; /* Set a minimum width */
-    min-height: 200px; /* Set a minimum height */
+    min-width: 400px; /* Set a minimum width */
+    min-height: 100px; /* Set a minimum height */
 }
 
 audio {
